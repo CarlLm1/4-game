@@ -32,7 +32,10 @@ $(document).ready(function() {
 
   // Checking if object and all properties are loading
   console.log(characters);
-
+  var currentSelectedCharacter;
+  var combatants = [];
+  // Functions
+  // ==========================================================================================================
   //The following function will render a character card to the page.
   var renderOne = function(character, renderArea) {
     var charDiv = $(
@@ -72,5 +75,23 @@ $(document).ready(function() {
     var name = $(this).attr("data-name");
     // and console logging the name of the character selected
     console.log("Selected: " + name);
+    // If a character hasn't been chosen yet,
+    if (!currentSelectedCharacter) {
+      // then the remaining characters will be looped
+      // and pushed to the combantants array.
+      for (var key in characters) {
+        if (key !== name) {
+          combatants.push(characters[key]);
+        }
+      }
+      // and console log the combatants array
+      console.log(combatants);
+
+      // Hiding the character selection div
+      $("#character-selection").hide();
+      // and then render the slected character and combatants.
+      renderCharacters(currentSelectedCharacter, "#selected-character");
+      renderCharacters(combatants, "#available-to-attack-section");
+    }
   });
 });
