@@ -29,6 +29,7 @@ $(document).ready(function() {
       enemyAttackBack: 15
     }
   };
+
   // Checking if object and all properties are loading
   console.log(characters);
 
@@ -64,4 +65,12 @@ $(document).ready(function() {
   };
   // Rendering all characters to the page when the game starts.
   renderCharacters(characters, "#character-selection");
+
+  // On-click event for character selection
+  $(document).on("click", ".character", function() {
+    // The clicked character's name will be saved
+    var name = $(this).attr("data-name");
+    // and console logging the name of the character selected
+    console.log("Selected: " + name);
+  });
 });
