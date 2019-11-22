@@ -43,7 +43,7 @@ $(document).ready(function() {
       character.imageUrl
     );
     var charHealth = $("<div class ='character-health'>").text(
-      character.health
+      "HP: " + character.health
     );
     charDiv
       .append(charName)
@@ -52,16 +52,16 @@ $(document).ready(function() {
     $(renderArea).append(charDiv);
   };
 
-  var renderCharacters = function(charObj, areaRender) {};
-  if (areaRender === "#character-selection") {
-    $(areaRender).empty();
-    for (var key in charObj) {
-      if (charObj.hasOwnProperty(key)) {
-        renderOne(charObj[key], areaRender);
+  var renderCharacters = function(charObj, areaRender) {
+    if (areaRender === "#character-selection") {
+      $(areaRender).empty();
+      for (var key in charObj) {
+        if (charObj.hasOwnProperty(key)) {
+          renderOne(charObj[key], areaRender);
+        }
       }
     }
-  }
-
+  };
   // Rendering all characters to the page when the game starts.
   renderCharacters(characters, "#character-selection");
 });

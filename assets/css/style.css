@@ -1,6 +1,12 @@
 body {
   background-image: url(../images/space-1164579_1280.png);
 }
+
+img {
+  height: 100px;
+  width: 150px;
+  border-radius: 10px;
+}
 .main-section-title {
   font-size: 300%;
   text-align: center;
@@ -11,4 +17,12 @@ body {
   font-size: 200%;
   color: #ffffff;
   font-family: "Space Mono", monospace;
+}
+.character {
+  display: inline-block;
+  border-style: solid;
+  border-color: rgb(50, 50, 255);
+  border-width: 3px;
+  cursor: pointer;
+  background-color: #ffffff;
 }
