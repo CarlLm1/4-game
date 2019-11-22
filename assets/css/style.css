@@ -1,0 +1,14 @@
+body {
+  background-image: url(../images/space-1164579_1280.png);
+}
+.main-section-title {
+  font-size: 300%;
+  text-align: center;
+  color: #ffffff;
+  font-family: "Press Start 2P", cursive;
+}
+.section-title {
+  font-size: 200%;
+  color: #ffffff;
+  font-family: "Space Mono", monospace;
+}
