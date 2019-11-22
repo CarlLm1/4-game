@@ -37,7 +37,7 @@ $(document).ready(function() {
   // Functions
   // ==========================================================================================================
   //The following function will render a character card to the page.
-  var renderOne = function(character, renderArea) {
+  var renderOne = function(character, renderArea, charStatus) {
     var charDiv = $(
       "<div class = 'character' data-name = '" + character.name + "'>"
     );
@@ -54,6 +54,11 @@ $(document).ready(function() {
       .append(charImage)
       .append(charHealth);
     $(renderArea).append(charDiv);
+    // If the character is an enemy or oppenent,
+    // then add the appropriate class.
+    if (charStatus === "enemy") {
+      $(charDiv).addClass("enemy");
+    }
   };
 
   var renderCharacters = function(charObj, areaRender) {
@@ -61,7 +66,7 @@ $(document).ready(function() {
       $(areaRender).empty();
       for (var key in charObj) {
         if (charObj.hasOwnProperty(key)) {
-          renderOne(charObj[key], areaRender);
+          renderOne(charObj[key], areaRender, "");
         }
       }
     }
@@ -69,13 +74,13 @@ $(document).ready(function() {
     // The selected-character div is where the selected character will appear
     // If this is true, then the selected character will be rendered.
     if (areaRender === "#selected-character") {
-      renderOne(charObj, areaRender);
+      renderOne(charObj, areaRender, "");
     }
     // The available-to-attack div is where the inactive opponents will be
     // If this is true, then the selected character will be rendered.
     if (areaRender === "#available-to-attack-section") {
       for (var i = 0; i < charObj.length; i++) {
-        renderOne(charObj[i], areaRender);
+        renderOne(charObj[i], areaRender, "enemy");
       }
     }
   };
