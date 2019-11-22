@@ -41,6 +41,8 @@ $(document).ready(function() {
   var currentDefender;
   // 4. keeps track of turns
   var turnCounter = 1;
+  // 5. keeps track of defeated opponents
+  var killCount = 0;
 
   // Functions
   // ==========================================================================================================
@@ -180,6 +182,11 @@ $(document).ready(function() {
     else {
       // Remove them from the screen
       renderCharacters(currentDefender, "enemyDefeated");
+      // Kill count
+      killCount++;
+      // If all the enemies are defeated, then the player has won.
+      if (killCount >= 3) {
+      }
     }
     turnCounter++;
   });
