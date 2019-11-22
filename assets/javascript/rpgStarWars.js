@@ -65,6 +65,19 @@ $(document).ready(function() {
         }
       }
     }
+
+    // The selected-character div is where the selected character will appear
+    // If this is true, then the selected character will be rendered.
+    if (areaRender === "#selected-character") {
+      renderOne(charObj, areaRender);
+    }
+    // The available-to-attack div is where the inactive opponents will be
+    // If this is true, then the selected character will be rendered.
+    if (areaRender === "#available-to-attack-section") {
+      for (var i = 0; i < charObj.length; i++) {
+        renderOne(charObj[i], areaRender);
+      }
+    }
   };
   // Rendering all characters to the page when the game starts.
   renderCharacters(characters, "#character-selection");
@@ -77,6 +90,7 @@ $(document).ready(function() {
     console.log("Selected: " + name);
     // If a character hasn't been chosen yet,
     if (!currentSelectedCharacter) {
+      currentSelectedCharacter = characters[name];
       // then the remaining characters will be looped
       // and pushed to the combantants array.
       for (var key in characters) {
