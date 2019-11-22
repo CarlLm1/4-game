@@ -32,8 +32,14 @@ $(document).ready(function() {
 
   // Checking if object and all properties are loading
   console.log(characters);
+
+  //1. populated once the user selects a character.
   var currentSelectedCharacter;
+  // 2. populated with characters user didn't choose.
   var combatants = [];
+  // 3. populated when user chooses an opponent.
+  var currentDefender;
+
   // Functions
   // ==========================================================================================================
   //The following function will render a character card to the page.
@@ -54,10 +60,13 @@ $(document).ready(function() {
       .append(charImage)
       .append(charHealth);
     $(renderArea).append(charDiv);
-    // If the character is an enemy or oppenent,
+    // If the character is an enemy or defender,
     // then add the appropriate class.
     if (charStatus === "enemy") {
       $(charDiv).addClass("enemy");
+    } else if (charStatus === "defender") {
+      currentDefender = character;
+      $(charDiv).addClass("target-enemy");
     }
   };
 
@@ -81,6 +90,27 @@ $(document).ready(function() {
     if (areaRender === "#available-to-attack-section") {
       for (var i = 0; i < charObj.length; i++) {
         renderOne(charObj[i], areaRender, "enemy");
+      }
+      // Creating an on click event for each enemy
+      $(document).on("click", ".enemy", function() {
+        var name = $(this).attr("data-name");
+
+        // If there's no defender, then the clicked enemy will become the defender
+        if ($("#defender").children().length === 0) {
+          renderCharacters(name, "#defender");
+          $(this).hide();
+        }
+      });
+    }
+
+    // The defender div is where the active opponent appears
+    //If this is true, the selected enemy will be rendered here.
+    if (areaRender === "#defender") {
+      $(areaRender).empty();
+      for (var i = 0; i < combatants.length; i++) {
+        if (combatants[i].name === charObj) {
+          renderOne(combatants[i], areaRender, "defender");
+        }
       }
     }
   };
