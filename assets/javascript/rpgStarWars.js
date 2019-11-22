@@ -74,6 +74,18 @@ $(document).ready(function() {
     }
   };
 
+  // Game messages function
+  var renderMessage = function(message) {
+    // Creates the message and appends it to the page
+    var gameMessageSet = $("#game-message");
+    var newMessage = $("<div>").text(message);
+    gameMessageSet.append(newMessage);
+    if (message === "clearMessage") {
+      gameMessageSet.text("");
+    }
+  };
+
+  // Function for rendering characters based on what the user has selected.
   var renderCharacters = function(charObj, areaRender) {
     if (areaRender === "#character-selection") {
       $(areaRender).empty();
@@ -103,6 +115,7 @@ $(document).ready(function() {
         if ($("#defender").children().length === 0) {
           renderCharacters(name, "#defender");
           $(this).hide();
+          renderMessage("clearMessage");
         }
       });
     }
@@ -131,7 +144,17 @@ $(document).ready(function() {
     // Removing the defeating enemy
     if (areaRender === "enemyDefeated") {
       $("#defender").empty();
+      var gameStateMessage =
+        "You have defeated " +
+        charObj.name +
+        ", you may choose to fight another enemy.";
+      renderMessage(gameStateMessage);
     }
+  };
+
+  // Function that handles restarting the game after game over
+  var restartGame = function(inputEndGame) {
+    // When clicked, reload the page
   };
 
   //=====================================================================================
@@ -170,10 +193,28 @@ $(document).ready(function() {
   // The following logic is for when the attack button is clicked
   $("attack-button").on("click", function() {
     if ($("#defender").children().length !== 0) {
+      // Creates a message for the attack and the opponent's counter attack
+      var attackMessage =
+        "You attacked " +
+        currentDefender.name +
+        " for " +
+        currentSelectedCharacter.attack +
+        turnCounter +
+        " damage.";
+      var counterAttackMessage =
+        currentDefender.name +
+        " attacked you back for " +
+        currentDefender.enemyAttackBack +
+        " damage.";
+      renderMessage("clearMessage");
       // Reduce the defender's health based on the attack value.
       currentDefender.health -= currentSelectedCharacter.attack * turnCounter;
+
       if (currentDefender.health > 0) {
         renderCharacters(currentDefender, "playerDamage");
+        // Render combat messages
+        renderMessage(attackMessage);
+        renderMessage(counterAttackMessage);
         currentSelectedCharacter.health -= currentDefender.enemyAttackBack;
         renderCharacters(currentSelectedCharacter, "enemyDamage");
       }
