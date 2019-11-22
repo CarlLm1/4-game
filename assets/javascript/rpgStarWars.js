@@ -155,6 +155,13 @@ $(document).ready(function() {
   // Function that handles restarting the game after game over
   var restartGame = function(inputEndGame) {
     // When clicked, reload the page
+    var restart = $("<button>Restart</button>").click(function() {
+      location.reload();
+    });
+    // Create div that will display the victory or defeat message.
+    var gameState = $("<div>").text(inputEndGame);
+    $("body").append(gameState);
+    $("body").append(restart);
   };
 
   //=====================================================================================
@@ -209,14 +216,18 @@ $(document).ready(function() {
       renderMessage("clearMessage");
       // Reduce the defender's health based on the attack value.
       currentDefender.health -= currentSelectedCharacter.attack * turnCounter;
-
-      if (currentDefender.health > 0) {
-        renderCharacters(currentDefender, "playerDamage");
-        // Render combat messages
-        renderMessage(attackMessage);
-        renderMessage(counterAttackMessage);
-        currentSelectedCharacter.health -= currentDefender.enemyAttackBack;
-        renderCharacters(currentSelectedCharacter, "enemyDamage");
+    }
+    if (currentDefender.health > 0) {
+      renderCharacters(currentDefender, "playerDamage");
+      // Render combat messages
+      renderMessage(attackMessage);
+      renderMessage(counterAttackMessage);
+      currentSelectedCharacter.health -= currentDefender.enemyAttackBack;
+      renderCharacters(currentSelectedCharacter, "enemyDamage");
+      if (currentSelectedCharacter.health <= 0) {
+        renderMessage("clearMessage");
+        restartGame("You have died... GAME OVER ! ! !");
+        $("#attack-button").unbind("click");
       }
     }
     // If the enemy has less than zero health, then they are defeated.
@@ -225,8 +236,11 @@ $(document).ready(function() {
       renderCharacters(currentDefender, "enemyDefeated");
       // Kill count
       killCount++;
-      // If all the enemies are defeated, then the player has won.
+      // If all the enemies are defeated, then the player has won,
+      // and finally calling the restart game function to allow the user to play again if they want.
       if (killCount >= 3) {
+        renderMessage("clearMessage");
+        restartGame("You win ! ! ! ");
       }
     }
     turnCounter++;
