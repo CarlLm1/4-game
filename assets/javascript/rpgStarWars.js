@@ -39,6 +39,8 @@ $(document).ready(function() {
   var combatants = [];
   // 3. populated when user chooses an opponent.
   var currentDefender;
+  // 4. keeps track of turns
+  var turnCounter = 1;
 
   // Functions
   // ==========================================================================================================
@@ -113,7 +115,26 @@ $(document).ready(function() {
         }
       }
     }
+
+    // Render the defender again when attacked
+    if (areaRender === "playerDamage") {
+      $("#defender").empty();
+      renderOne(charObj, "#defender", "defender");
+    }
+    // Render the player's character when attacked
+    if (areaRender === "enemyDamage") {
+      $("#selected-character").empty();
+      renderOne(charObj, "#selected-character", "");
+    }
+    // Removing the defeating enemy
+    if (areaRender === "enemyDefeated") {
+      $("#defender").empty();
+    }
   };
+
+  //=====================================================================================
+  //
+  //
   // Rendering all characters to the page when the game starts.
   renderCharacters(characters, "#character-selection");
 
@@ -142,5 +163,24 @@ $(document).ready(function() {
       renderCharacters(currentSelectedCharacter, "#selected-character");
       renderCharacters(combatants, "#available-to-attack-section");
     }
+  });
+
+  // The following logic is for when the attack button is clicked
+  $("attack-button").on("click", function() {
+    if ($("#defender").children().length !== 0) {
+      // Reduce the defender's health based on the attack value.
+      currentDefender.health -= currentSelectedCharacter.attack * turnCounter;
+      if (currentDefender.health > 0) {
+        renderCharacters(currentDefender, "playerDamage");
+        currentSelectedCharacter.health -= currentDefender.enemyAttackBack;
+        renderCharacters(currentSelectedCharacter, "enemyDamage");
+      }
+    }
+    // If the enemy has less than zero health, then they are defeated.
+    else {
+      // Remove them from the screen
+      renderCharacters(currentDefender, "enemyDefeated");
+    }
+    turnCounter++;
   });
 });
